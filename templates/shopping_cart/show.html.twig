@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ShoppingCart
+{% endblock %}
+
+{% block body %}
+	<h1>ShoppingCart</h1>
+
+	<table class="table">
+		<tbody>
+			<tr>
+				<th>Id</th>
+				<td>{{ shopping_cart.id }}</td>
+			</tr>
+			<tr>
+				<th>Total</th>
+				<td>{{ shopping_cart.total }}</td>
+			</tr>
+			<tr>
+				<th>Liste Produits</th>
+				{% for product in shopping_cart.product %}
+					<td>
+						<a href="{{ path('product_show', {'id':product.id}) }}">{{product.name}}</a>
+               
+					</td>
+				{% endfor %}
+			</tr>
+		</tbody>
+	</table>
+
+	<a href="{{ path('app_shopping_cart_index') }}">back to list</a>
+
+	<a href="{{ path('app_shopping_cart_edit', {'id': shopping_cart.id}) }}">edit</a>
+
+	{{ include('shopping_cart/_delete_form.html.twig') }}
+{% endblock %}

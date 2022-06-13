@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+
+<div class="example-wrapper">
+  
+ <ul>
+{% for product in products %}
+        <li>Nom : {{ product.name }} | Prix : {{ product.price }}€ | Catégorie : {{ product.category.name }}</li>
+    {% endfor %}
+</ul>
+</div>
+{% endblock %}
