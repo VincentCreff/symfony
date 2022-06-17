@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/shopping-cart')]
+#[Route('/admin/shopping-cart')]
 class ShoppingCartController extends AbstractController
 {
     #[Route('/', name: 'app_shopping_cart_index', methods: ['GET'])]
@@ -29,7 +29,8 @@ class ShoppingCartController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $shoppingCartRepository->add($shoppingCart, true);
+
+            $shoppingCartRepository->add($shoppingCartRepository->getTotalShoppingCart($shoppingCart), true);
 
             return $this->redirectToRoute('app_shopping_cart_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -55,7 +56,7 @@ class ShoppingCartController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $shoppingCartRepository->add($shoppingCart, true);
+            $shoppingCartRepository->add($shoppingCartRepository->getTotalShoppingCart($shoppingCart), true);
 
             return $this->redirectToRoute('app_shopping_cart_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -69,7 +70,7 @@ class ShoppingCartController extends AbstractController
     #[Route('/{id}', name: 'app_shopping_cart_delete', methods: ['POST'])]
     public function delete(Request $request, ShoppingCart $shoppingCart, ShoppingCartRepository $shoppingCartRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$shoppingCart->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $shoppingCart->getId(), $request->request->get('_token'))) {
             $shoppingCartRepository->remove($shoppingCart, true);
         }
 

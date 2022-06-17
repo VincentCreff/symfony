@@ -23,6 +23,7 @@ class ShoppingCartRepository extends ServiceEntityRepository
 
     public function add(ShoppingCart $entity, bool $flush = false): void
     {
+       
         $this->getEntityManager()->persist($entity);
 
         if ($flush) {
@@ -38,29 +39,37 @@ class ShoppingCartRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+ 
+    public function getTotalShoppingCart(ShoppingCart $entity){
+        $total = $entity->totalShoppingCart();
+        $entity->setTotal($total);
 
-//    /**
-//     * @return ShoppingCart[] Returns an array of ShoppingCart objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('s.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+        return $entity;
+    }
 
-//    public function findOneBySomeField($value): ?ShoppingCart
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+
+    //    /**
+    //     * @return ShoppingCart[] Returns an array of ShoppingCart objects
+    //     */
+    //    public function findByExampleField($value): array
+    //    {
+    //        return $this->createQueryBuilder('s')
+    //            ->andWhere('s.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->orderBy('s.id', 'ASC')
+    //            ->setMaxResults(10)
+    //            ->getQuery()
+    //            ->getResult()
+    //        ;
+    //    }
+
+    //    public function findOneBySomeField($value): ?ShoppingCart
+    //    {
+    //        return $this->createQueryBuilder('s')
+    //            ->andWhere('s.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->getQuery()
+    //            ->getOneOrNullResult()
+    //        ;
+    //    }
 }

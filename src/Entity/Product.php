@@ -25,12 +25,27 @@ class Product
     #[ORM\JoinColumn(nullable: false)]
     private $category;
 
+    // #[ORM\ManyToMany(targetEntity: ShoppingCart::class, inversedBy: 'product')]
+    // #[ORM\JoinTable(name: 'shopping_cart_product')]
     #[ORM\ManyToMany(targetEntity: ShoppingCart::class, mappedBy: 'product')]
+
+
     private $shoppingCarts;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    private $image;
+
+    #[ORM\OneToMany(mappedBy: 'product', targetEntity: CartItem::class)]
+    private $shoppingCart;
+
+    #[ORM\OneToMany(mappedBy: 'product', targetEntity: CartItem::class)]
+    private $cartItems;
 
     public function __construct()
     {
         $this->shoppingCarts = new ArrayCollection();
+        $this->shoppingCart = new ArrayCollection();
+        $this->cartItems = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -104,5 +119,55 @@ class Product
     public function __toString()
     {
         return $this->name;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(string $image): self
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, CartItem>
+     */
+    public function getShoppingCart(): Collection
+    {
+        return $this->shoppingCart;
+    }
+
+    /**
+     * @return Collection<int, CartItem>
+     */
+    public function getCartItems(): Collection
+    {
+        return $this->cartItems;
+    }
+
+    public function addCartItem(CartItem $cartItem): self
+    {
+        if (!$this->cartItems->contains($cartItem)) {
+            $this->cartItems[] = $cartItem;
+            $cartItem->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCartItem(CartItem $cartItem): self
+    {
+        if ($this->cartItems->removeElement($cartItem)) {
+            // set the owning side to null (unless already changed)
+            if ($cartItem->getProduct() === $this) {
+                $cartItem->setProduct(null);
+            }
+        }
+
+        return $this;
     }
 }

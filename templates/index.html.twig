@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+ {% block body %}
+
+ <div class="container-fluid">
+  <div class="row d-flex justify-content-around align-items-">
+ {% for product in products %}
+
+<div class="card m-3 h-100" style="width: 25rem">
+  <img src= {{ asset("build/images/" ~ product.image) }} class="card-img-top img-fluid img-thumbnail">
+  <div class="card-body">
+    <h5 class="card-title">{{ product.name }}</h5>
+    <p class="card-text">{{ product.price }}€</p>
+    <a class="btn btn-success" href="{{ path('app_product_add', {'id': product.id}) }}"><i class="bi bi-cart"></i> Ajouter au panier</a>
+  </div>
+</div>
+
+ {% endfor %}
+ 
+
+ 
+ 
+ 
+ 
+ </div>
+ </div>
+ 
+ 
+ {% endblock %}

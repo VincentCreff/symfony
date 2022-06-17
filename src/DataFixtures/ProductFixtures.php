@@ -18,6 +18,8 @@ class ProductFixtures extends Fixture implements DependentFixtureInterface
             $product = new Product();
             $product->setName('product ' . $i);
             $product->setPrice(mt_rand(10, 100));
+            $product->setImage('img'.$i.'.jpg');
+
 
             $product->setCategory($this->getReference('category0'));
             $this->addReference('product'. $i, $product);
@@ -30,7 +32,7 @@ class ProductFixtures extends Fixture implements DependentFixtureInterface
             $product = new Product();
             $product->setName('product ' . $i);
             $product->setPrice(mt_rand(10, 100));
-
+            $product->setImage('img'.$i.'.jpg');
             $product->setCategory($this->getReference('category1'));
             $this->addReference('product'. $i, $product);
             $manager->persist($product);
